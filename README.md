@@ -22,9 +22,7 @@ This project automates the process of grading student assignments using Selenium
 2. **Install the required Python packages:**
 
     ```sh
-    pip install pytest
-    pip install selenium
-    pip install openpyxl
+    pip install -r requirements.txt
     ```
 
 3. **Download and install ChromeDriver:**
