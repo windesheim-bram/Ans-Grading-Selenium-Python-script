@@ -1,3 +1,5 @@
 pytest
 selenium
 openpyxl
+pandas
+python-dotenv

@@ -1,0 +1,30 @@
+{
+    "path_to_excel": "data/results.xlsx",
+    "sheets_to_import": [
+        "AB",
+        "CD",
+        "ED"
+    ],
+    "import": [
+        {
+            "ans_assignment_id": 1,
+            "columns_to_import": [
+                "1a",
+                "1b",
+                "1c"
+            ]
+        },
+        {
+            "ans_assignment_id": 2,
+            "columns_to_import": [
+                "1a",
+                "1b",
+                "1c"
+            ]
+        }
+    ],
+    "column_student_id": "Studentnummer",
+    "comment_pattern": "Opmerking",
+    "mapping": ["0", "1", "2", "4"],
+    "skip_till_including_student_number": null
+}
