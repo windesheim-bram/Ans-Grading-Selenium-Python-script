@@ -22,6 +22,7 @@ class AppConfig:
     import_strategies: List[ImportStrategy]
     column_student_id: str
     comment_pattern: str
+    comment_position: str
     mapping: Dict[str, str]
     skip_till_including_student_number: Optional[str]
 
@@ -84,6 +85,11 @@ def load_config(path_config: Path) -> AppConfig:
     if comment_pattern:
         comment_pattern = normalize_column_name(comment_pattern)
 
+    comment_position = str(cfg.get("comment_position", "right")).strip().lower()
+
+    if comment_position not in {"right", "left"}:
+        raise RuntimeError('comment_position must be "right" or "left"')
+
     mapping_list = cfg.get("mapping")
     
     if not mapping_list:
@@ -99,6 +105,7 @@ def load_config(path_config: Path) -> AppConfig:
         import_strategies=import_strategies,
         column_student_id=column_student_id,
         comment_pattern=comment_pattern,
+        comment_position=comment_position,
         mapping=mapping,
         skip_till_including_student_number=skip_value
     )

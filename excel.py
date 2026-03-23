@@ -42,13 +42,23 @@ def detect_columns_in_order(
         base_columns.append(header)
         
         comment_header = None
+        
+        if cfg.comment_pattern:
+            if cfg.comment_position == "right":
+                if i + 1 < header_count:
+                    candidate_header = headers[i + 1]
+                    candidate_norm = headers_norm[i + 1]
 
-        if i + 1 < header_count:
-            right_header = headers[i + 1]
-            right_norm = headers_norm[i + 1]
+                    if cfg.comment_pattern in candidate_norm:
+                        comment_header = candidate_header
 
-            if cfg.comment_pattern and cfg.comment_pattern in right_norm:
-                comment_header = right_header
+            elif cfg.comment_position == "left":
+                if i - 1 >= 0:
+                    candidate_header = headers[i - 1]
+                    candidate_norm = headers_norm[i - 1]
+
+                    if cfg.comment_pattern in candidate_norm:
+                        comment_header = candidate_header
 
         comment_by_base[header] = comment_header
 

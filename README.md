@@ -100,6 +100,7 @@ This file controls how Excel columns map to ANS assignments.
 | `columns_to_import`                  | ✅ (per strategy) | Excel columns used for that assignment |
 | `column_student_id`                  | ✅                | Name of column containing student numbers      |
 | `comment_pattern`                    | Optional         | Text identifying comment columns       |
+| `comment_position`                   | Optional         | Position of comment columns       |
 | `mapping`                            | ✅                | Ordered list of grading values         |
 | `skip_till_including_student_number` | Optional         | Skip until this student number         |
 
@@ -127,6 +128,7 @@ This file controls how Excel columns map to ANS assignments.
     ],
     "column_student_id": "Studentnummer",
     "comment_pattern": "Opmerking",
+    "comment_position": "right",
     "mapping": ["0", "1", "2", "4"],
     "skip_till_including_student_number": null
 }
@@ -134,10 +136,10 @@ This file controls how Excel columns map to ANS assignments.
 
 ### Example Excel Layout
 
-| Studentnummer | 1a | 1a-opmerking | 1b | 1b-opmerking         | 1c | 1c-opmerking         |
-| ------------- | -- | --------- | -- | ----------------- | -- | ----------------- |
-| 123456        | 4  | Good work | 2  | Improve structure | 1  |                   |
-| 234567        | 2  |           | 4  | Nice structure    | 2  |                   |
+| Studentnummer | 1a | 1a-opmerking | 1b | 1b-opmerking      | 1c | 1c-opmerking      |
+| ------------- | -- | ------------ | -- | ----------------- | -- | ----------------- |
+| 123456        | 4  | Good work    | 2  | Improve structure | 1  |                   |
+| 234567        | 2  |              | 4  | Nice structure    | 2  |                   |
 
 ---
 
@@ -171,6 +173,7 @@ This file controls how Excel columns map to ANS assignments.
     ],
     "column_student_id": "Studentnummer",
     "comment_pattern": "Opmerking",
+    "comment_position": "left",
     "mapping": ["0", "1", "2", "4"],
     "skip_till_including_student_number": null
 }
@@ -178,10 +181,10 @@ This file controls how Excel columns map to ANS assignments.
 
 ### Example Excel Layout
 
-| Studentnummer | DP1-1a | Opmerking | DP1-1b | DP2-1a | Opmerking | DP2-1b |
-| ------------- | ------ | --------- | ------ | ------ | --------- | ------ |
-| 123456        | 4      | Nice      | 1      | 2      | Good      | 1      |
-| 234567        | 0      |           | 0      | 0      |           | 0      |
+| Studentnummer | DP1-Opmerking | DP1-1a | DP1-1b | DP2-Opmerking | DP2-1a | DP2-1b |
+| ------------- | ------------- | ------ | ------ | ------------- | ------ | ------ |
+| 123456        | Nice          | 4      | 1      | Good          | 2      | 1      |
+| 234567        |               | 0      | 0      |               | 0      | 0      |
 
 ---
 

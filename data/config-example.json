@@ -25,6 +25,7 @@
     ],
     "column_student_id": "Studentnummer",
     "comment_pattern": "Opmerking",
+    "comment_position": "right",
     "mapping": ["0", "1", "2", "4"],
     "skip_till_including_student_number": null
 }
