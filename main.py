@@ -8,7 +8,7 @@ from selenium import webdriver
 
 from config import AppConfig, ImportStrategy, require_env_path, load_config
 from excel import detect_columns_in_order, load_sheet_dataframe_all  
-from web_action import make_driver, open_student_submission, grade_one_cell, fill_comment
+from web_action import make_driver, open_student_submission, grade_one_cell
 
 from util import normalize_column_name, normalize_value, normalize_value_student_number
 
@@ -74,7 +74,7 @@ def process_sheet_df(driver: webdriver.Chrome, cfg: AppConfig, strategy: ImportS
                 print(f"  - {col}: empty/invalid ({raw_value})")
                 continue
 
-            grade_one_cell(driver, i, mapped_value)            
+            add_comment_fn = grade_one_cell(driver, i, mapped_value)            
             print(f"  - {col}: {raw_value} -> {mapped_value}")
 
             comment_header = comment_by_base.get(col)
@@ -84,7 +84,7 @@ def process_sheet_df(driver: webdriver.Chrome, cfg: AppConfig, strategy: ImportS
                 comment = row.get(df_comment_col, "")
                 
                 if should_write_comment(comment):
-                    fill_comment(driver, i, mapped_value, comment)
+                    add_comment_fn(comment)
                     print(f"    comment: {comment}")
 
 
