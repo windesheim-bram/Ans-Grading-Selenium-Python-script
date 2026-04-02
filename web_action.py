@@ -11,6 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 WAIT_AMOUNT = 5
+WAIT_AMOUNT_NO_STUDENT = 2
 
 def make_driver(user_data_dir: Path) -> webdriver.Chrome:
     options = webdriver.ChromeOptions()
@@ -46,7 +47,7 @@ def open_student_submission(driver, assignment_id: int, student_number: str):
 
     # Wait for result list to contain student number.
     try:
-        assignment_link = WebDriverWait(driver, WAIT_AMOUNT).until(
+        assignment_link = WebDriverWait(driver, WAIT_AMOUNT_NO_STUDENT).until(
             EC.element_to_be_clickable((
                 By.XPATH,
                 f'//div[contains(@class,"text-support") and normalize-space()="{student_number}"]/ancestor::div[contains(@class,"d-flex")][1]//a'
