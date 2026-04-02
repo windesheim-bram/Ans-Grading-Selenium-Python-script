@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Set
 
-from util import normalize_column_name
+from util import normalize_column_name, normalize_value_student_number
 
 
 @dataclass(frozen=True)
@@ -98,6 +98,9 @@ def load_config(path_config: Path) -> AppConfig:
     mapping = {str(value).strip(): f"[{index + 1}]" for index, value in enumerate(mapping_list)}
 
     skip_value = cfg.get("skip_till_including_student_number", None)
+    
+    if skip_value:
+        skip_value = normalize_value_student_number(skip_value)
 
     return AppConfig(
         spreadsheet_path=spreadsheet_path,
