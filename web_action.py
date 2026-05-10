@@ -62,40 +62,23 @@ def open_student_submission(driver, assignment_id: int, student_number: str):
     assignment_link.click()
 
     # Open answers.
-    wait_click(driver, "/html/body/div[4]/div/main/div/div[1]/div/div/a[2]/span")
+    wait_click(driver, '//a[contains(@href,"/grading/review/")]')
 
     return True
 
 
-def _get_offset(driver, timeout: int = 2) -> int:
-    """
-    Returns the div index offset depending on whether
-    the plagiarism warning banner is present.
-    """
-
-    plagiarism_xpath = "/html/body/main/div[1]/div[3]/div[3]/div/div[1]/div[1]/div/span"
-
-    try:
-        el = WebDriverWait(driver, timeout).until(
-            EC.presence_of_element_located((By.XPATH, plagiarism_xpath))
-        )
-
-        if "Plagiaat op vragen gedetecteerd" in el.text:
-            return 2  # Shift by one extra div.
-
-    except TimeoutException:
-        pass
-
-    return 1  # Normal situation.
-
-
 def grade_one_cell(driver, index_in_base_cols: int, mapped_value: str):
-    mapped_column = f"[{index_in_base_cols + 1}]"
-    offset = _get_offset(driver)
+    question_number = index_in_base_cols + 1
+    criterium_number = mapped_value.strip("[]")  # Temporary fix: "[3]" -> "3"
+
+    panel_xpath = f'(//div[@data-js-grading-panel=""])[{question_number}]'
 
     grade_xpath = (
-        f"/html/body/main/div[1]/div[3]/div[3]/div/div[1]/div[{offset}]"
-        f"/div{mapped_column}/ul[2]/li{mapped_value}/div[1]/a"
+        f'{panel_xpath}'
+        f'//ul[contains(@class, "criteria--rubrics")]'
+        f'//li[@data-js-criterium=""]'
+        f'[.//a[@data-cy="select-criteria" and normalize-space()="{criterium_number}"]]'
+        f'//a[@data-cy="select-criteria"]'
     )
 
     WebDriverWait(driver, WAIT_AMOUNT).until(
@@ -104,6 +87,8 @@ def grade_one_cell(driver, index_in_base_cols: int, mapped_value: str):
 
     grade_link = driver.find_element(By.XPATH, grade_xpath)
     grade_link.click()
+
+    sleep(0.1)
 
     # Retrieve the surrounding <li> for the selected criterion.
     criterion_li = grade_link.find_element(By.XPATH, "./ancestor::li[1]")

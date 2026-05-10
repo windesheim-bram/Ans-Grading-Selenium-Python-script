@@ -74,7 +74,8 @@ def process_sheet_df(driver: webdriver.Chrome, cfg: AppConfig, strategy: ImportS
                 print(f"  - {col}: empty/invalid ({raw_value})")
                 continue
 
-            add_comment_fn = grade_one_cell(driver, i, mapped_value)            
+            question_index = i + strategy.start_from_q_index
+            add_comment_fn = grade_one_cell(driver, question_index, mapped_value)
             print(f"  - {col}: {raw_value} -> {mapped_value}")
 
             comment_header = comment_by_base.get(col)

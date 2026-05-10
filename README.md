@@ -98,6 +98,7 @@ This file controls how Excel columns map to ANS assignments.
 | `import`                             | ✅                | List of import strategies              |
 | `ans_assignment_id`                  | ✅ (per strategy) | ANS assignment ID                      |
 | `columns_to_import`                  | ✅ (per strategy) | Excel columns used for that assignment |
+| `start_from_q_index`                 | Optional (per strategy) | Start the import from this question index (zero-based). Comments will also be added to this question |
 | `column_student_id`                  | ✅                | Name of column containing student numbers      |
 | `comment_pattern`                    | Optional         | Text identifying comment columns       |
 | `comment_position`                   | Optional         | Position of comment columns       |
@@ -123,7 +124,8 @@ This file controls how Excel columns map to ANS assignments.
                 "1a",
                 "1b",
                 "1c"
-            ]
+            ],
+            "start_from_q_index": 0
         }
     ],
     "column_student_id": "Studentnummer",

@@ -13,6 +13,7 @@ from util import normalize_column_name, normalize_value_student_number
 class ImportStrategy:
     assignment_id: int
     columns_to_import_norm_set: Set[str]
+    start_from_q_index: int
 
 
 @dataclass(frozen=True)
@@ -71,10 +72,16 @@ def load_config(path_config: Path) -> AppConfig:
 
         cols_norm_set = {normalize_column_name(c) for c in cols}
 
+        start_from_q_index = item.get("start_from_q_index")
+
+        if not start_from_q_index:
+            start_from_q_index = 0
+
         import_strategies.append(
             ImportStrategy(
                 assignment_id=int(assignment_id),
-                columns_to_import_norm_set=cols_norm_set
+                columns_to_import_norm_set=cols_norm_set,
+                start_from_q_index=int(start_from_q_index)
             )
         )
 
