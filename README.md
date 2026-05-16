@@ -98,12 +98,12 @@ This file controls how Excel columns map to ANS assignments.
 | `import`                             | ✅                | List of import strategies              |
 | `ans_assignment_id`                  | ✅ (per strategy) | ANS assignment ID                      |
 | `columns_to_import`                  | ✅ (per strategy) | Excel columns used for that assignment |
-| `start_from_q_index`                 | Optional (per strategy) | Start the import from this question index (zero-based). Comments will also be added to this question |
+| `start_from_q_index`                 | Optional (per strategy) | Start the import from this question index (zero-based). Comments will also be added starting from this question |
 | `column_student_id`                  | ✅                | Name of column containing student numbers      |
 | `comment_pattern`                    | Optional         | Text identifying comment columns       |
 | `comment_position`                   | Optional         | Position of comment columns       |
 | `mapping`                            | ✅                | Ordered list of grading values         |
-| `skip_till_including_student_number` | Optional         | Skip until this student number         |
+| `skip_till_including_student_number` | Optional         | Skip until this student number. So the processing starts AFTER this student.         |
 
 ---
 

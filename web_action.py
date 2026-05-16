@@ -61,6 +61,8 @@ def open_student_submission(driver, assignment_id: int, student_number: str):
     # Open student page.
     assignment_link.click()
 
+    sleep(0.2) # A small sleep is required!
+
     # Open answers.
     wait_click(driver, '//a[contains(@href,"/grading/review/")]')
 
@@ -77,8 +79,8 @@ def grade_one_cell(driver, index_in_base_cols: int, mapped_value: str):
         f'{panel_xpath}'
         f'//ul[contains(@class, "criteria--rubrics")]'
         f'//li[@data-js-criterium=""]'
-        f'[.//a[@data-cy="select-criteria" and normalize-space()="{criterium_number}"]]'
-        f'//a[@data-cy="select-criteria"]'
+        f'[.//*[@data-cy="select-criteria" and normalize-space()="{criterium_number}"]]'
+        f'//*[@data-cy="select-criteria"]'
     )
 
     WebDriverWait(driver, WAIT_AMOUNT).until(
@@ -98,14 +100,44 @@ def grade_one_cell(driver, index_in_base_cols: int, mapped_value: str):
             lambda li: li.find_element(By.CSS_SELECTOR, '[data-cy="comment-button"]')
         )
 
-        comment_button.click()
+        try:
+            comment_button.click()
+
+        except Exception:
+            # Existing comment already present.
+            tooltip_button = WebDriverWait(criterion_li, WAIT_AMOUNT).until(
+                lambda li: li.find_element(By.CSS_SELECTOR, 'button[data-controller="tooltip"]')
+            )
+
+            tooltip_button.click()
+
+            edit_anchor = WebDriverWait(criterion_li, WAIT_AMOUNT).until(
+                lambda li: li.find_element(By.XPATH, './/a[contains(@href, "/edit")]')
+            )
+
+            edit_anchor.click()
 
         comment_editor = WebDriverWait(criterion_li, WAIT_AMOUNT).until(
             lambda li: li.find_element(By.CSS_SELECTOR, '[contenteditable="true"]')
         )
 
         comment_editor.click()
-        comment_editor.send_keys(comment)
+
+        driver.execute_script(
+            """
+            const el = arguments[0];
+            const text = arguments[1];
+
+            el.focus();
+            el.innerHTML = "";
+            el.textContent = text;
+
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+            """,
+            comment_editor,
+            comment
+        )
 
         sleep(0.5)
 
