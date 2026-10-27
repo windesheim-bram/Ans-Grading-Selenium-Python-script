@@ -62,7 +62,7 @@ def open_student_submission(driver, assignment_id: int, student_number: str):
     # Open student page.
     assignment_link.click()
 
-    sleep(0.2) # A small sleep is required!
+    sleep(0.3) # A small sleep is required!
 
     # Open answers.
     wait_click(driver, '//a[contains(@href,"/grading/review/")]')
@@ -112,7 +112,11 @@ def _hover(driver, *elements):
 
 
 def _wait_for_visible_child(scope, selector: str):
-    return WebDriverWait(scope, WAIT_AMOUNT).until(
+    # TODO: If we still crash here, then WAIT_AMOUNT * 2 isn't a reliable fix.
+    
+    # sleep(0.4)
+
+    return WebDriverWait(scope, WAIT_AMOUNT * 2).until(
         lambda parent: next(
             (
                 el
